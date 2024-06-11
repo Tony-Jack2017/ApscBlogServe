@@ -4,10 +4,8 @@ import "ApscBlog/common/model"
 
 type GetArticleListReq struct {
 	model.ReqPagination
-	Params interface {
-	}
+	Params interface{}
 }
-
 type CreateArticleReq struct {
 	Title   string  `json:"title"`
 	Cover   string  `json:"cover"`
@@ -15,17 +13,14 @@ type CreateArticleReq struct {
 	Type    int32   `json:"type"`
 	Content string  `json:"content"`
 }
-
 type GetArticleContentReq struct {
 	ArticleID     int32 `json:"article_id" form:"article_id"`
 	ArticleInfoID int32 `json:"article_info_id" form:"article_info_id"`
 }
-
 type UpdateArticleReq struct {
 	ArticleInfoID int32  `json:"article_info_id" form:"article_info_id"`
 	Cover         string `json:"cover" form:"cover"`
 }
-
 type UpdateArticleContentReq struct {
 	ArticleID int32  `json:"article_id"`
 	Content   string `json:"content"`

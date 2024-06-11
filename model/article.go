@@ -4,7 +4,6 @@ import (
 	"ApscBlog/common/model"
 	"ApscBlog/model/other"
 	"context"
-	"fmt"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
@@ -29,12 +28,14 @@ func UpdateArticle() {
 }
 
 func AddArticle(info *ArticleInfo, article *Article) (bool, error) {
-	fmt.Println(info.Title, article)
-	fmt.Println(articleInfoConn)
 	_, err := articleConn.InsertOne(context.TODO(), article)
 	_, err = articleInfoConn.InsertOne(context.TODO(), info)
 	if err != nil {
 		return false, err
 	}
 	return true, nil
+}
+
+func GetArticles() {
+
 }

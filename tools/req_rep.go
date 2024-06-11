@@ -19,7 +19,7 @@ func HandleBindReq[T interface{}](ctx *gin.Context, req T) bool {
 	return true
 }
 
-func HandleResponse(ctx *gin.Context, err error) {
+func HandleResponse[T interface{}](ctx *gin.Context, err error, resp T) {
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, model.Response{
 			Code:    500,
@@ -28,9 +28,13 @@ func HandleResponse(ctx *gin.Context, err error) {
 		})
 		return
 	}
-	ctx.JSON(http.StatusOK, model.Response{
-		Code:    0,
-		Success: true,
-		Message: "Operation Successfully !!!",
-	})
+	if resp != nil {
+		ctx.JSON(http.StatusOK, resp)
+	} else {
+		ctx.JSON(http.StatusOK, model.Response{
+			Code:    0,
+			Success: true,
+			Message: "Operation Successfully !!!",
+		})
+	}
 }
