@@ -3,6 +3,7 @@ package model
 import (
 	"ApscBlog/common/model"
 	"ApscBlog/model/other"
+	"ApscBlog/tools"
 	"context"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
@@ -36,6 +37,23 @@ func AddArticle(info *ArticleInfo, article *Article) (bool, error) {
 	return true, nil
 }
 
-func GetArticles() {
+func GetArticles(pag *model.Pagination, filter interface{}) (error, *[]ArticleInfo) {
+	var list []ArticleInfo
+	cursor, err := articleConn.Find(context.TODO(), filter, tools.PagFind(pag))
+	if err != nil {
+		return err, nil
+	}
+	err = cursor.All(context.TODO(), &list)
+	if err != nil {
+		return err, nil
+	}
+	return nil, &list
+}
 
+func GetArticlesCount(filter interface{}) (error, int64) {
+	count, err := articleConn.CountDocuments(context.TODO(), filter)
+	if err != nil {
+		return err, 0
+	}
+	return nil, count
 }

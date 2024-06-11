@@ -10,8 +10,8 @@ type ResponseWithData struct {
 	Data interface{} `json:"data"`
 }
 type ResponseWithList struct {
+	Total  int64 `json:"total"`
+	Curren int   `json:"curren"`
+	Size   int   `json:"size"`
 	ResponseWithData
-	Total  int `json:"total"`
-	Curren int `json:"curren"`
-	Size   int `json:"size"`
 }

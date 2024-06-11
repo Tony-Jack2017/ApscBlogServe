@@ -3,7 +3,7 @@ package api
 import "ApscBlog/common/model"
 
 type GetArticleListReq struct {
-	model.ReqPagination
+	model.Pagination
 	Params interface{}
 }
 type CreateArticleReq struct {

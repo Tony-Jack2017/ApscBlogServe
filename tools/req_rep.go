@@ -19,7 +19,7 @@ func HandleBindReq[T interface{}](ctx *gin.Context, req T) bool {
 	return true
 }
 
-func HandleResponse[T interface{}](ctx *gin.Context, err error, resp T) {
+func HandleResponse(ctx *gin.Context, err error, resp interface{}) {
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, model.Response{
 			Code:    500,

@@ -8,7 +8,6 @@ import (
 )
 
 func GetArticleListInfo(ctx *gin.Context) {
-
 }
 
 func GetArticleList(ctx *gin.Context) {
