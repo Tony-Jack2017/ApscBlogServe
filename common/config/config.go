@@ -7,19 +7,25 @@ import (
 
 var Conf *Config
 
-type MongoConfig struct {
-	Host string `json:"host"`
-	Port int    `json:"port"`
-}
-
 type ApiConfig struct {
 	Host string `json:"host"`
 	Port int    `json:"port"`
 }
-
+type MongoConfig struct {
+	Host string `json:"host"`
+	Port int    `json:"port"`
+}
+type MinioConfig struct {
+	Host            string `json:"host"`
+	Port            int    `json:"port"`
+	AccessKeyID     string `json:"access_key_id" yaml:"access_key_id" mapstructure:"access_key_id"`
+	SecretAccessKey string `json:"secret_access_key" yaml:"secret_access_key" mapstructure:"secret_access_key"`
+	UseSSL          bool   `json:"use_ssl" yaml:"use_ssl" mapstructure:"use_ssl"`
+}
 type Config struct {
 	Mongo MongoConfig `json:"mongo"`
 	Api   ApiConfig   `json:"api"`
+	Minio MinioConfig `json:"minio"`
 }
 
 func ReadConfig() {

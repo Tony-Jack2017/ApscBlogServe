@@ -12,13 +12,13 @@ func CorsMiddleware() gin.HandlerFunc {
 		if origin != "" {
 			ctx.Header("Access-Control-Allow-Origin", origin)
 			ctx.Header("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE, UPDATE")
-			ctx.Header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization")
-			ctx.Header("Access-Control-Expose-Headers", "Content-Length, Access-Control-Allow-Origin, Access-Control-Allow-Headers, Cache-Control, Content-Language, Content-Type")
 			ctx.Header("Access-Control-Allow-Credentials", "true")
+			ctx.Header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Origin,Access-Control-Allow-Methods,Access-Control-Allow-Credentials,Access-Control-Allow-Headers, Access-Control-Expose-Headers")
+			ctx.Header("Access-Control-Expose-Headers", "Content-Length, Access-Control-Allow-Origin, Access-Control-Allow-Headers, Cache-Control, Content-Language, Content-Type")
 		}
 		// 放行所有OPTIONS方法
 		if method == "OPTIONS" {
-			ctx.AbortWithStatus(http.StatusNoContent)
+			ctx.JSON(http.StatusOK, "Hello Client")
 			return
 		}
 		ctx.Next()

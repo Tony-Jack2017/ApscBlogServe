@@ -7,7 +7,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 )
 
-func GetArticleByCondSVC(req *api.GetArticleListReq) (error, *common.ResponseWithList) {
+func GetArticleListSVC(req *api.GetArticleListReq) (error, *common.ResponseWithList) {
 	err, total := model.GetArticlesCount(bson.D{})
 	if err != nil {
 		return err, nil

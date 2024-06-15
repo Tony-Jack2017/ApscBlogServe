@@ -6,12 +6,13 @@ import (
 )
 
 func RegisterAdminRoutes(admin *gin.RouterGroup) {
-	admin.POST("/user/sign_in")
-	admin.POST("/user/sign_up")
+	admin.POST("/user/login", api.AccountLogin)
+	admin.POST("/user/create", api.AccountSignUp)
+	admin.GET("/user/check", api.CheckUserInfo)
 
 	admin.POST("/article/create", api.CreateArticle)
-	admin.POST("/article/update")
-	admin.GET("/article/list")
+	admin.POST("/article/update", api.UpdateArticle)
+	admin.GET("/article/list", api.GetArticleList)
 
 	admin.POST("/article/tag/create")
 	admin.POST("/article/tag/update")

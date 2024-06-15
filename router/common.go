@@ -1,7 +1,10 @@
 package router
 
-import "github.com/gin-gonic/gin"
+import (
+	common "ApscBlog/api/common"
+	"github.com/gin-gonic/gin"
+)
 
-func RegisterCommonRoutes(common *gin.RouterGroup) {
-	common.POST("/login_in")
+func RegisterCommonRoutes(commonRoute *gin.RouterGroup) {
+	commonRoute.POST("/file/upload", common.UploadFileSingle)
 }

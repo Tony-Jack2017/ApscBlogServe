@@ -15,12 +15,15 @@ func GetArticleList(ctx *gin.Context) {
 	if !tools.HandleBindReq(ctx, req) {
 		return
 	}
+	err, resp := controller.GetArticleListSVC(&req)
+	tools.HandleResponse(ctx, err, resp)
 }
-
 func CreateArticle(ctx *gin.Context) {
 	var req api.CreateArticleReq
 	if !tools.HandleBindReq(ctx, &req) {
 		return
 	}
 	tools.HandleResponse(ctx, controller.CreateArticleSVC(&req), nil)
+}
+func UpdateArticle(ctx *gin.Context) {
 }

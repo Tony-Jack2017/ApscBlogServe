@@ -15,10 +15,9 @@ type ArticleInfo struct {
 	Description string             `json:"description" bson:"description"`
 	Tags        []other.ArticleTag `json:"tags"`
 	Type        other.ArticleType  `json:"type" bson:"type"`
-	Status      string             `json:"status" bson:"status"` // "Idling" | "Available"
+	Status      string             `json:"status" bson:"status"` // "Idling" | "Available" | "Pending"
 	model.BaseTime1
 }
-
 type Article struct {
 	ID            primitive.ObjectID `json:"id" bson:"_id,omitempty,unique"`
 	ArticleInfoID int32              `json:"article_info_id"`
@@ -27,7 +26,6 @@ type Article struct {
 
 func UpdateArticle() {
 }
-
 func AddArticle(info *ArticleInfo, article *Article) (bool, error) {
 	_, err := articleConn.InsertOne(context.TODO(), article)
 	_, err = articleInfoConn.InsertOne(context.TODO(), info)
@@ -36,7 +34,6 @@ func AddArticle(info *ArticleInfo, article *Article) (bool, error) {
 	}
 	return true, nil
 }
-
 func GetArticles(pag *model.Pagination, filter interface{}) (error, *[]ArticleInfo) {
 	var list []ArticleInfo
 	cursor, err := articleConn.Find(context.TODO(), filter, tools.PagFind(pag))
@@ -49,7 +46,6 @@ func GetArticles(pag *model.Pagination, filter interface{}) (error, *[]ArticleIn
 	}
 	return nil, &list
 }
-
 func GetArticlesCount(filter interface{}) (error, int64) {
 	count, err := articleConn.CountDocuments(context.TODO(), filter)
 	if err != nil {
