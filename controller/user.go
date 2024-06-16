@@ -40,7 +40,9 @@ func UserCreateSVC(req *api.AccountSignUpReq) (*common.Response, error) {
 		Message: "User signup successfully!!!",
 	}, err
 }
-func GetUserInfoSVC() {
+func GetUserInfoSVC(req *api.CheckUserInfoReq) {
+	user := model.User{}
+	model.SearchUser(&user)
 }
 func CheckUserInfoSVC() {
 }

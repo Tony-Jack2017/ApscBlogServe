@@ -26,6 +26,11 @@ func AccountSignUp(ctx *gin.Context) {
 	tools.HandleResponse(ctx, err, resp)
 }
 func CheckUserInfo(ctx *gin.Context) {
+	var req api.CheckUserInfoReq
+	ok := tools.HandleBindReq(ctx, &req)
+	if !ok {
+		return
+	}
 }
 
 func GetUserList(ctx *gin.Context) {
