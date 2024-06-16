@@ -26,7 +26,7 @@ func VerifyUserSVC(req *api.AccountLoginReq) (*common.ResponseWithData, error) {
 }
 func UserCreateSVC(req *api.AccountSignUpReq) (*common.Response, error) {
 	user := model.User{
-		FullName: req.FullName,
+		Account:  req.Account,
 		Email:    req.Email,
 		Password: req.Password,
 	}
@@ -37,7 +37,7 @@ func UserCreateSVC(req *api.AccountSignUpReq) (*common.Response, error) {
 	return &common.Response{
 		Code:    0,
 		Success: true,
-		Message: "Create user successfully!!!",
+		Message: "User signup successfully!!!",
 	}, err
 }
 func GetUserInfoSVC() {
