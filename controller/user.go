@@ -6,6 +6,24 @@ import (
 	"ApscBlog/model/api"
 )
 
+func VerifyUserSVC(req *api.AccountLoginReq) (*common.ResponseWithData, error) {
+	user := model.User{
+		Account:  req.Account,
+		Password: req.Password,
+	}
+	err, res := model.SearchUser(&user)
+	if err != nil {
+		return nil, err
+	}
+	return &common.ResponseWithData{
+		Data: res,
+		Response: common.Response{
+			Code:    0,
+			Success: true,
+			Message: "Account login successfully .",
+		},
+	}, nil
+}
 func UserCreateSVC(req *api.AccountSignUpReq) (*common.Response, error) {
 	user := model.User{
 		FullName: req.FullName,

@@ -3,6 +3,7 @@ package model
 import (
 	"ApscBlog/common/model"
 	"context"
+	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
@@ -29,6 +30,17 @@ func AddUser(user *User) (bool, error) {
 }
 func UpdateUser() {
 }
-func SearchUser() (error, *User) {
-	return nil, nil
+func GetUserList() {
+}
+func SearchUser(user *User) (error, *User) {
+	var res User
+	data, err := bson.Marshal(user)
+	if err != nil {
+		return err, nil
+	}
+	err = userConn.FindOne(context.TODO(), data).Decode(&res)
+	if err != nil {
+		return err, nil
+	}
+	return nil, &res
 }
