@@ -10,7 +10,7 @@ type AccountSignUpReq struct {
 	Code     string `json:"code" form:"code" binding:"required"`
 	Password string `json:"password" form:"password" binding:"required"`
 }
-type CheckUserInfoReq struct {
+type GetUserInfoReq struct {
 	UserID string `json:"user_id" form:"form_id"`
 }
 type ModifyPassword struct {

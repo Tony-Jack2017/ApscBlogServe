@@ -2,17 +2,16 @@ package controller
 
 import (
 	common "ApscBlog/common/model"
-	"ApscBlog/model"
 	"ApscBlog/model/api"
 	"go.mongodb.org/mongo-driver/bson"
 )
 
 func GetArticleListSVC(req *api.GetArticleListReq) (error, *common.ResponseWithList) {
-	err, total := model.GetArticlesCount(bson.D{})
+	err, total := main.GetArticlesCount(bson.D{})
 	if err != nil {
 		return err, nil
 	}
-	err, list := model.GetArticles(&common.Pagination{
+	err, list := main.GetArticles(&common.Pagination{
 		Current: req.Current,
 		Size:    req.Size,
 	}, bson.D{})
@@ -35,14 +34,14 @@ func GetArticleListSVC(req *api.GetArticleListReq) (error, *common.ResponseWithL
 }
 
 func CreateArticleSVC(req *api.CreateArticleReq) error {
-	articleInfo := &model.ArticleInfo{
+	articleInfo := &main.ArticleInfo{
 		Title: req.Title,
 		Cover: req.Cover,
 	}
-	article := &model.Article{
+	article := &main.Article{
 		Content: req.Content,
 	}
-	ok, err := model.AddArticle(articleInfo, article)
+	ok, err := article.AddArticle(articleInfo, article)
 	if !ok {
 		return err
 	}

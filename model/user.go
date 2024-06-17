@@ -21,12 +21,9 @@ type User struct {
 	model.BaseTime
 }
 
-func AddUser(user *User) (bool, error) {
+func AddUser(user *User) error {
 	_, err := userConn.InsertOne(context.TODO(), user)
-	if err != nil {
-		return false, err
-	}
-	return true, nil
+	return err
 }
 func SearchUser(user *User) (error, *User) {
 	var res User
@@ -43,10 +40,7 @@ func SearchUser(user *User) (error, *User) {
 func UpdateUser(user *User) error {
 	filter := bson.M{"user_id": user.UserID}
 	_, err := userConn.UpdateOne(context.TODO(), filter, user)
-	if err != nil {
-		return err
-	}
-	return nil
+	return err
 }
 func GetUserList(user *User) (error, *[]User) {
 	var res *[]User

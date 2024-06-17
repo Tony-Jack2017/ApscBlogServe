@@ -2,7 +2,6 @@ package model
 
 import (
 	"ApscBlog/common/model"
-	"ApscBlog/model/other"
 	"ApscBlog/tools"
 	"context"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -13,8 +12,8 @@ type ArticleInfo struct {
 	Cover       string             `json:"cover" bson:"cover"`
 	Title       string             `json:"title" bson:"title"`
 	Description string             `json:"description" bson:"description"`
-	Tags        []other.ArticleTag `json:"tags"`
-	Type        other.ArticleType  `json:"type" bson:"type"`
+	Tags        []ArticleTag       `json:"tags"`
+	Type        ArticleType        `json:"type" bson:"type"`
 	Status      string             `json:"status" bson:"status"` // "Idling" | "Available" | "Pending"
 	model.BaseTime1
 }
@@ -24,15 +23,15 @@ type Article struct {
 	Content       string             `json:"content"`
 }
 
-func UpdateArticle() {
-}
-func AddArticle(info *ArticleInfo, article *Article) (bool, error) {
+func AddArticle(info *ArticleInfo, article *Article) error {
 	_, err := articleConn.InsertOne(context.TODO(), article)
 	_, err = articleInfoConn.InsertOne(context.TODO(), info)
 	if err != nil {
-		return false, err
+		return err
 	}
-	return true, nil
+	return nil
+}
+func UpdateArticle() {
 }
 func GetArticles(pag *model.Pagination, filter interface{}) (error, *[]ArticleInfo) {
 	var list []ArticleInfo

@@ -7,9 +7,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func GetArticleListInfo(ctx *gin.Context) {
-}
-
 func GetArticleList(ctx *gin.Context) {
 	var req api.GetArticleListReq
 	if !tools.HandleBindReq(ctx, req) {
@@ -26,4 +23,11 @@ func CreateArticle(ctx *gin.Context) {
 	tools.HandleResponse(ctx, controller.CreateArticleSVC(&req), nil)
 }
 func UpdateArticle(ctx *gin.Context) {
+}
+
+func CreateArticleType(ctx *gin.Context) {
+}
+func UpdateArticleType(ctx *gin.Context) {
+}
+func GetArticleTypeList(ctx *gin.Context) {
 }

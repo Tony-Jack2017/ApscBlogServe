@@ -25,3 +25,13 @@ type UpdateArticleContentReq struct {
 	ArticleID int32  `json:"article_id"`
 	Content   string `json:"content"`
 }
+
+type CreateArticleTypeReq struct {
+	TypeName      string `json:"type_name" form:"type_name"`
+	TypeIcon      string `json:"type_icon" form:"type_icon"`
+	TypeCover     string `json:"type_cover" form:"type_cover"`
+	ArticleInfoID int64  `json:"article_info_id"`
+}
+
+type GetTypeListReq struct {
+}

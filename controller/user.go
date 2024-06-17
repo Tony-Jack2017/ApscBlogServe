@@ -30,8 +30,8 @@ func UserCreateSVC(req *api.AccountSignUpReq) (*common.Response, error) {
 		Email:    req.Email,
 		Password: req.Password,
 	}
-	ok, err := model.AddUser(&user)
-	if !ok {
+	err := model.AddUser(&user)
+	if err != nil {
 		return nil, err
 	}
 	return &common.Response{
@@ -40,7 +40,7 @@ func UserCreateSVC(req *api.AccountSignUpReq) (*common.Response, error) {
 		Message: "User signup successfully!!!",
 	}, err
 }
-func CheckUserInfoSVC(req *api.CheckUserInfoReq) (*common.ResponseWithData, error) {
+func CheckUserInfoSVC(req *api.GetUserInfoReq) (*common.ResponseWithData, error) {
 	user := model.User{}
 	err, res := model.SearchUser(&user)
 	if err != nil {
