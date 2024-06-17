@@ -9,6 +9,9 @@ func RegisterAdminRoutes(admin *gin.RouterGroup) {
 	admin.POST("/user/login", api.AccountLogin)
 	admin.POST("/user/create", api.AccountSignUp)
 	admin.GET("/user/check", api.CheckUserInfo)
+	admin.POST("/user/password/modify", api.ModifyPassword)
+	admin.POST("/user/update", api.UpdateUserInfo)
+	admin.GET("/user/list", api.GetUserList)
 
 	admin.POST("/article/create", api.CreateArticle)
 	admin.POST("/article/update", api.UpdateArticle)

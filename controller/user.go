@@ -40,9 +40,47 @@ func UserCreateSVC(req *api.AccountSignUpReq) (*common.Response, error) {
 		Message: "User signup successfully!!!",
 	}, err
 }
-func GetUserInfoSVC(req *api.CheckUserInfoReq) {
+func CheckUserInfoSVC(req *api.CheckUserInfoReq) (*common.ResponseWithData, error) {
 	user := model.User{}
-	model.SearchUser(&user)
+	err, res := model.SearchUser(&user)
+	if err != nil {
+		return nil, err
+	}
+	return &common.ResponseWithData{
+		Response: common.Response{
+			Code:    0,
+			Success: true,
+			Message: "Get user info successfully .",
+		},
+		Data: res,
+	}, nil
 }
-func CheckUserInfoSVC() {
+func UpdateUserInfoSVC(req *api.UpdateUserInfoReq) (*common.Response, error) {
+	user := model.User{}
+	err := model.UpdateUser(&user)
+	if err != nil {
+		return nil, err
+	}
+	return &common.Response{
+		Code:    0,
+		Success: true,
+		Message: "Update user info successfully .",
+	}, nil
+}
+func ModifyPasswordSVC(req *api.ModifyPassword) {
+}
+func GetUserListSVC(req *api.GetUserListReq) (*common.ResponseWithData, error) {
+	user := model.User{}
+	err, list := model.GetUserList(&user)
+	if err != nil {
+		return nil, err
+	}
+	return &common.ResponseWithData{
+		Response: common.Response{
+			Code:    0,
+			Success: true,
+			Message: "Get user list successfully .",
+		},
+		Data: list,
+	}, err
 }

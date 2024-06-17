@@ -28,10 +28,6 @@ func AddUser(user *User) (bool, error) {
 	}
 	return true, nil
 }
-func UpdateUser() {
-}
-func GetUserList() {
-}
 func SearchUser(user *User) (error, *User) {
 	var res User
 	data, err := bson.Marshal(user)
@@ -43,4 +39,28 @@ func SearchUser(user *User) (error, *User) {
 		return err, nil
 	}
 	return nil, &res
+}
+func UpdateUser(user *User) error {
+	filter := bson.M{"user_id": user.UserID}
+	_, err := userConn.UpdateOne(context.TODO(), filter, user)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+func GetUserList(user *User) (error, *[]User) {
+	var res *[]User
+	data, err := bson.Marshal(user)
+	if err != nil {
+		return err, nil
+	}
+	list, err := userConn.Find(context.TODO(), data)
+	if err != nil {
+		return err, nil
+	}
+	err = list.Decode(&res)
+	if err != nil {
+		return err, nil
+	}
+	return nil, res
 }
