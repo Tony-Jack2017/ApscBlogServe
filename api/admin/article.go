@@ -31,3 +31,10 @@ func UpdateArticleType(ctx *gin.Context) {
 }
 func GetArticleTypeList(ctx *gin.Context) {
 }
+
+func CreateArticleTag(ctx *gin.Context) {
+}
+func UpdateArticleTag(ctx *gin.Context) {
+}
+func GetArticleTagList(ctx *gin.Context) {
+}

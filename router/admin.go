@@ -8,12 +8,14 @@ import (
 func RegisterAdminRoutes(admin *gin.RouterGroup) {
 	UserRoutes(admin.Group("/user"))
 	ArticleRoutes(admin.Group("/article"))
+
 	admin.POST("/comment/create")
 	admin.POST("/comment/update")
 	admin.GET("/comment/list")
-	admin.POST("/project/create")
-	admin.POST("/project/update")
-	admin.GET("/project/list")
+
+	admin.POST("/project/create", api.CreateProject)
+	admin.POST("/project/update", api.UpdateProject)
+	admin.GET("/project/list", api.GetProjectList)
 
 }
 
@@ -27,13 +29,13 @@ func UserRoutes(user *gin.RouterGroup) {
 }
 
 func ArticleRoutes(article *gin.RouterGroup) {
-	article.POST("/article/create", api.CreateArticle)
-	article.POST("/article/update", api.UpdateArticle)
-	article.GET("/article/list", api.GetArticleList)
-	article.POST("/article/tag/create")
-	article.POST("/article/tag/update")
-	article.GET("/article/tag/list")
-	article.POST("/article/type/create")
-	article.POST("/article/type/update")
-	article.GET("/article/type/list")
+	article.POST("/create", api.CreateArticle)
+	article.POST("/update", api.UpdateArticle)
+	article.GET("/list", api.GetArticleList)
+	article.POST("/tag/create", api.CreateArticleTag)
+	article.POST("/tag/update", api.UpdateArticleTag)
+	article.GET("/tag/list", api.GetArticleTagList)
+	article.POST("/type/create", api.CreateArticleType)
+	article.POST("/type/update", api.UpdateArticleType)
+	article.GET("/type/list", api.GetArticleTypeList)
 }
