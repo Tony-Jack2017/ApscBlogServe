@@ -9,9 +9,9 @@ func RegisterAdminRoutes(admin *gin.RouterGroup) {
 	UserRoutes(admin.Group("/user"))
 	ArticleRoutes(admin.Group("/article"))
 
-	admin.POST("/comment/create")
-	admin.POST("/comment/update")
-	admin.GET("/comment/list")
+	admin.POST("/comment/create", api.CreateComment)
+	admin.POST("/comment/update", api.UpdateComment)
+	admin.GET("/comment/list", api.GetCommentList)
 
 	admin.POST("/project/create", api.CreateProject)
 	admin.POST("/project/update", api.UpdateProject)

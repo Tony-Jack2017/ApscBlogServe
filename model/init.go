@@ -9,6 +9,8 @@ var articleConn,
 	articleInfoConn,
 	articleTagConn,
 	articleTypeConn,
+	commentConn,
+	projectConn,
 	userConn *mongo.Collection
 
 func InitModel() {
@@ -16,5 +18,7 @@ func InitModel() {
 	articleInfoConn = db.MgoConn.Collection("article_infos")
 	articleTagConn = db.MgoConn.Collection("article_tags")
 	articleTypeConn = db.MgoConn.Collection("article_types")
+	commentConn = db.MgoConn.Collection("comments")
+	commentConn = db.MgoConn.Collection("projects")
 	userConn = db.MgoConn.Collection("users")
 }
