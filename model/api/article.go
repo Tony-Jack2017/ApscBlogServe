@@ -1,9 +1,9 @@
 package api
 
-import "ApscBlog/common/model"
+import common "ApscBlog/common/model"
 
 type GetArticleListReq struct {
-	model.Pagination
+	common.Pagination
 	Params interface{}
 }
 type CreateArticleReq struct {
@@ -27,11 +27,31 @@ type UpdateArticleContentReq struct {
 }
 
 type CreateArticleTypeReq struct {
-	TypeName      string `json:"type_name" form:"type_name"`
-	TypeIcon      string `json:"type_icon" form:"type_icon"`
-	TypeCover     string `json:"type_cover" form:"type_cover"`
-	ArticleInfoID int64  `json:"article_info_id"`
+	TypeName  string `json:"type_name" form:"type_name"`
+	TypeIcon  string `json:"type_icon" form:"type_icon"`
+	TypeCover string `json:"type_cover" form:"type_cover"`
+}
+type UpdateArticleTypeReq struct {
+	TypeID    int64  `json:"type_id" form:"type_id" binding:"required"`
+	TypeName  string `json:"type_name" form:"type_name"`
+	TypeIcon  string `json:"type_icon" form:"type_icon"`
+	TypeCover string `json:"type_cover" form:"type_cover"`
+}
+type GetArticleTypeListReq struct {
+	common.Pagination
 }
 
-type GetTypeListReq struct {
+type CreateArticleTagReq struct {
+	TagName  string `json:"tag_name" form:"tag_name"`
+	TagIcon  string `json:"tag_icon" form:"tag_icon"`
+	TagCover string `json:"tag_cover" form:"tag_cover"`
+}
+type UpdateArticleTagReq struct {
+	TagID    int64  `json:"tag_id" form:"tag_id" binding:"required"`
+	TagName  string `json:"tag_name" form:"tag_name"`
+	TagIcon  string `json:"tag_icon" form:"tag_icon"`
+	TagCover string `json:"tag_cover" form:"tag_cover"`
+}
+type GetArticleTagListReq struct {
+	common.Pagination
 }

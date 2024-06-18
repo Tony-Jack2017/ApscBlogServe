@@ -12,9 +12,9 @@ type ArticleInfo struct {
 	Cover       string             `json:"cover" bson:"cover"`
 	Title       string             `json:"title" bson:"title"`
 	Description string             `json:"description" bson:"description"`
-	Tags        []ArticleTag       `json:"tags"`
-	Type        ArticleType        `json:"type" bson:"type"`
 	Status      string             `json:"status" bson:"status"` // "Idling" | "Available" | "Pending"
+	Tags        []ArticleTag       `json:"tags" bson:"tags"`
+	Type        ArticleType        `json:"type" bson:"type"`
 	model.BaseTime1
 }
 type Article struct {
