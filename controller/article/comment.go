@@ -1,19 +1,19 @@
-package controller
+package article
 
 import (
 	common "ApscBlog/common/model"
-	"ApscBlog/model"
-	"ApscBlog/model/api"
+	article2 "ApscBlog/model/api/article"
+	"ApscBlog/model/article"
 )
 
-func CreateCommentSVC(req *api.CreateCommentReq) (*common.Response, error) {
-	comment := model.Comment{
-		SenderName:    req.SenderName,
-		SenderEmail:   req.SenderEmail,
-		ArticleInfoID: req.ArticleInfoID,
-		Content:       req.Content,
+func CreateArticleCommentSVC(req *article2.CreateArticleCommentReq) (*common.Response, error) {
+	comment := article.Comment{
+		SenderName:  req.SenderName,
+		SenderEmail: req.SenderEmail,
+		ArticleID:   req.ArticleID,
+		Content:     req.CommentContent,
 	}
-	err := model.AddComment(&comment)
+	err := article.AddComment(&comment)
 	if err != nil {
 		return nil, err
 	}
@@ -23,11 +23,11 @@ func CreateCommentSVC(req *api.CreateCommentReq) (*common.Response, error) {
 		Message: "Create comment type successfully .",
 	}, nil
 }
-func UpdateCommentSVC(req *api.UpdateCommentReq) (*common.Response, error) {
-	comment := model.Comment{
+func UpdateArticleCommentSVC(req *article2.UpdateArticleCommentReq) (*common.Response, error) {
+	comment := article.Comment{
 		CommentID: req.CommentID,
 	}
-	err := model.UpdateComment(&comment)
+	err := article.UpdateComment(&comment)
 	if err != nil {
 		return nil, err
 	}
@@ -37,13 +37,13 @@ func UpdateCommentSVC(req *api.UpdateCommentReq) (*common.Response, error) {
 		Message: "Update comment type successfully .",
 	}, nil
 }
-func GetCommentListSVC(req *api.GetCommentListReq) (*common.ResponseWithList, error) {
-	comment := model.Comment{}
+func GetArticleCommentListSVC(req *article2.GetArticleCommentListReq) (*common.ResponseWithList, error) {
+	comment := article.Comment{}
 	pagination := common.Pagination{
 		Current: req.Current,
 		Size:    req.Size,
 	}
-	list, err := model.GetCommentList(&comment, &pagination)
+	list, err := article.GetCommentList(&comment, &pagination)
 	if err != nil {
 		return nil, err
 	}

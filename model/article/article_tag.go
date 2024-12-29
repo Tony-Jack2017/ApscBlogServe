@@ -1,13 +1,14 @@
-package model
+package article
 
 import (
 	"ApscBlog/common/model"
+	model2 "ApscBlog/model"
 	"ApscBlog/tools"
 	"context"
 	"go.mongodb.org/mongo-driver/bson"
 )
 
-type ArticleTag struct {
+type Tag struct {
 	TagID      int64  `json:"tag_id" bson:"tag_id"`
 	TagName    string `json:"tag_name" bson:"tag_name"`
 	TagIcon    string `json:"tag_icon" bson:"tag_icon"`
@@ -16,28 +17,28 @@ type ArticleTag struct {
 	model.BaseTime
 }
 
-func AddArticleTag(tag *ArticleTag) error {
-	_, err := articleTagConn.InsertOne(context.TODO(), tag)
+func AddArticleTag(tag *Tag) error {
+	_, err := model2.ArticleTagConn.InsertOne(context.TODO(), tag)
 	if err != nil {
 		return err
 	}
 	return nil
 }
-func UpdateArticleTag(tag *ArticleTag) error {
+func UpdateArticleTag(tag *Tag) error {
 	filter := bson.M{"tag_id": tag.TagID}
-	_, err := articleTagConn.UpdateOne(context.TODO(), filter, tag)
+	_, err := model2.ArticleTagConn.UpdateOne(context.TODO(), filter, tag)
 	if err != nil {
 		return err
 	}
 	return nil
 }
-func GetArticleTagList(tag *ArticleTag, pagination *model.Pagination) (*[]ArticleTag, error) {
-	var res *[]ArticleTag
+func GetArticleTagList(tag *Tag, pagination *model.Pagination) (*[]Tag, error) {
+	var res *[]Tag
 	data, err := bson.Marshal(tag)
 	if err != nil {
 		return nil, err
 	}
-	list, err := userConn.Find(context.TODO(), data, tools.PagFind(pagination))
+	list, err := model2.ArticleTagConn.Find(context.TODO(), data, tools.PagFind(pagination))
 	if err != nil {
 		return nil, err
 	}

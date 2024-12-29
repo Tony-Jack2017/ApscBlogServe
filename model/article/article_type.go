@@ -1,13 +1,14 @@
-package model
+package article
 
 import (
 	"ApscBlog/common/model"
+	model2 "ApscBlog/model"
 	"ApscBlog/tools"
 	"context"
 	"go.mongodb.org/mongo-driver/bson"
 )
 
-type ArticleType struct {
+type Type struct {
 	TypeID     int64  `json:"type_id" bson:"type_id"`
 	TypeName   string `json:"type_name" bson:"type_name"`
 	TypeIcon   string `json:"type_icon" bson:"type_icon"`
@@ -16,22 +17,22 @@ type ArticleType struct {
 	model.BaseTime
 }
 
-func AddArticleType(articleType *ArticleType) error {
-	_, err := articleTypeConn.InsertOne(context.TODO(), articleType)
+func AddArticleType(articleType *Type) error {
+	_, err := model2.ArticleTypeConn.InsertOne(context.TODO(), articleType)
 	return err
 }
-func UpdateArticleType(articleType *ArticleType) error {
+func UpdateArticleType(articleType *Type) error {
 	filter := bson.M{"type_id": articleType.TypeID}
-	_, err := userConn.UpdateOne(context.TODO(), filter, articleType)
+	_, err := model2.ArticleTypeConn.UpdateOne(context.TODO(), filter, articleType)
 	return err
 }
-func GetArticleTypeList(articleType *ArticleType, pagination *model.Pagination) (*[]ArticleType, error) {
-	var res *[]ArticleType
+func GetArticleTypeList(articleType *Type, pagination *model.Pagination) (*[]Type, error) {
+	var res *[]Type
 	data, err := bson.Marshal(articleType)
 	if err != nil {
 		return nil, err
 	}
-	list, errRes := userConn.Find(context.TODO(), data, tools.PagFind(pagination))
+	list, errRes := model2.ArticleCommentConn.Find(context.TODO(), data, tools.PagFind(pagination))
 	if errRes != nil {
 		return nil, err
 	}

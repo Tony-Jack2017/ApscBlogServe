@@ -10,9 +10,9 @@ import (
 var router = gin.Default()
 
 func init() {
-	router.Use(middleware.CorsMiddleware())
+	router.Use(middleware.CorsMiddleware()).Use(middleware.ErrorMiddleware())
 	v1 := router.Group("/api/v1")
-	RegisterAppRoutes(v1.Group("/app"))
+	RegisterArticleRoutes(v1.Group("/blog"))
 	RegisterAdminRoutes(v1.Group("/admin"))
 	RegisterCommonRoutes(v1.Group("/common"))
 }

@@ -2,9 +2,11 @@ package router
 
 import "github.com/gin-gonic/gin"
 
-func RegisterAppRoutes(app *gin.RouterGroup) {
+func RegisterArticleRoutes(app *gin.RouterGroup) {
 	app.GET("/article/list")
 	app.GET("/article/:article_id")
+	app.GET("/article/comment/list")
+	app.POST("/article/comment/push")
 
 	app.GET("/author/list")
 	app.GET("/author/:author_id")
@@ -12,6 +14,4 @@ func RegisterAppRoutes(app *gin.RouterGroup) {
 	app.GET("/project/list")
 	app.GET("/project/:project_id")
 
-	app.GET("/comment/list")
-	app.POST("/comment/push")
 }

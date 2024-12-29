@@ -21,11 +21,13 @@ func HandleBindReq[T interface{}](ctx *gin.Context, req T) bool {
 
 func HandleResponse(ctx *gin.Context, err error, resp interface{}) {
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, model.Response{
-			Code:    500,
-			Success: false,
-			Message: err.Error(),
-		})
+		panic(err)
+		//ctx.JSON(http.StatusInternalServerError, model.Response{
+		//	Code:    500,
+		//	Success: false,
+		//	Message: err.Error(),
+
+		//})
 		return
 	}
 	if resp != nil {

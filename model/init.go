@@ -5,20 +5,18 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
-var articleConn,
-	articleInfoConn,
-	articleTagConn,
-	articleTypeConn,
-	commentConn,
-	projectConn,
-	userConn *mongo.Collection
+var ArticleConn *mongo.Collection
+var ArticleTagConn *mongo.Collection
+var ArticleTypeConn *mongo.Collection
+var ArticleCommentConn *mongo.Collection
+var projectConn *mongo.Collection
+var userConn *mongo.Collection
 
 func InitModel() {
-	articleConn = db.MgoConn.Collection("articles")
-	articleInfoConn = db.MgoConn.Collection("article_infos")
-	articleTagConn = db.MgoConn.Collection("article_tags")
-	articleTypeConn = db.MgoConn.Collection("article_types")
-	commentConn = db.MgoConn.Collection("comments")
-	commentConn = db.MgoConn.Collection("projects")
+	ArticleConn = db.MgoConn.Collection("articles")
+	ArticleTagConn = db.MgoConn.Collection("article_tags")
+	ArticleTypeConn = db.MgoConn.Collection("article_types")
+	ArticleCommentConn = db.MgoConn.Collection("article_comments")
+	projectConn = db.MgoConn.Collection("projects")
 	userConn = db.MgoConn.Collection("users")
 }

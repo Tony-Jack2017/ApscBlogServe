@@ -33,12 +33,16 @@ func FileUploader(objectName string, file *multipart.FileHeader) (error, string)
 	if errRead != nil {
 		return errRead, "Read file fail!!!"
 	}
-	info, err := MinioClient.PutObject(ctx, bucketName, objectName, data, file.Size, minio.PutObjectOptions{ContentType: contentType})
+	_, err := MinioClient.PutObject(ctx, bucketName, objectName, data, file.Size, minio.PutObjectOptions{ContentType: contentType})
 	if err != nil {
-		return err, "upload file failed !!!"
+		return err, "Upload file failed !!!"
 	}
-	url := fmt.Sprintf("http://%s:%d/%s/%s", config.Conf.Minio.Host, config.Conf.Minio.Port, bucketName, info.Key)
-	return nil, url
+	object, errGet := MinioClient.PresignedGetObject(ctx, bucketName, objectName, 360000000000, nil)
+	if errGet != nil {
+		return errGet, "Get image url failed !!!"
+	}
+	//url := fmt.Sprintf("http://%s:%d/%s/%s", config.Conf.Minio.Host, config.Conf.Minio.Port, bucketName, info.Key)
+	return nil, object.String()
 }
 
 func GetFileType(file *multipart.FileHeader) string {

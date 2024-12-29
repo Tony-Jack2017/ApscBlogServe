@@ -1,27 +1,31 @@
 package controller
 
 import (
+	"ApscBlog/common/constant"
 	common "ApscBlog/common/model"
 	"ApscBlog/model"
 	"ApscBlog/model/api"
+	"errors"
+	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/mongo"
 )
 
-func VerifyUserSVC(req *api.AccountLoginReq) (*common.ResponseWithData, error) {
-	user := model.User{
-		Account:  req.Account,
-		Password: req.Password,
+func VerifyUserSVC(req *api.AccountLoginReq) (*common.Response, error) {
+	err, _ := model.SearchUser(bson.M{"account": req.Account, "password": req.Password})
+	if errors.Is(err, mongo.ErrNoDocuments) {
+		return &common.Response{
+			Code:    constant.NoFoundErr,
+			Success: false,
+			Message: "Account or password error !!!",
+		}, nil
 	}
-	err, res := model.SearchUser(&user)
 	if err != nil {
 		return nil, err
 	}
-	return &common.ResponseWithData{
-		Data: res,
-		Response: common.Response{
-			Code:    0,
-			Success: true,
-			Message: "Account login successfully .",
-		},
+	return &common.Response{
+		Code:    0,
+		Success: true,
+		Message: "Account login successfully .",
 	}, nil
 }
 func UserCreateSVC(req *api.AccountSignUpReq) (*common.Response, error) {
@@ -29,8 +33,20 @@ func UserCreateSVC(req *api.AccountSignUpReq) (*common.Response, error) {
 		Account:  req.Account,
 		Email:    req.Email,
 		Password: req.Password,
+		Username: req.Account,
 	}
-	err := model.AddUser(&user)
+	err, res := model.SearchUser(bson.M{"$or": []bson.M{{"account": req.Account}, {"email": req.Email}}})
+	if err != nil && !errors.Is(err, mongo.ErrNoDocuments) {
+		return nil, err
+	}
+	if res != nil {
+		return &common.Response{
+			Code:    constant.IsExistedErr,
+			Success: false,
+			Message: "Account or email already existed",
+		}, nil
+	}
+	err = model.AddUser(&user)
 	if err != nil {
 		return nil, err
 	}

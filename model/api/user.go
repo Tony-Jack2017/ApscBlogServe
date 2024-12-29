@@ -6,8 +6,7 @@ type AccountLoginReq struct {
 }
 type AccountSignUpReq struct {
 	Account  string `json:"account" form:"account" binding:"required"`
-	Email    string `json:"email" form:"email" binding:"email;required"`
-	Code     string `json:"code" form:"code" binding:"required"`
+	Email    string `json:"email" form:"email" binding:"required,email"`
 	Password string `json:"password" form:"password" binding:"required"`
 }
 type GetUserInfoReq struct {
