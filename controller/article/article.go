@@ -27,19 +27,19 @@ func CreateArticleSVC(req *article2.CreateArticleReq) (*common.Response, error) 
 		Message: "Create article successfully .",
 	}, nil
 }
-func GetArticleListSVC(req *article2.GetArticleListReq) (error, *common.ResponseWithList) {
+func GetArticleListSVC(req *article2.GetArticleListReq) (*common.ResponseWithList, error) {
 	err, total := article.GetArticlesCount(bson.D{})
 	if err != nil {
-		return err, nil
+		return nil, err
 	}
 	err, list := article.GetArticles(&common.Pagination{
 		Current: req.Current,
 		Size:    req.Size,
 	}, bson.D{})
 	if err != nil {
-		return err, nil
+		return nil, err
 	}
-	return nil, &common.ResponseWithList{
+	return &common.ResponseWithList{
 		ResponseWithData: common.ResponseWithData{
 			Response: common.Response{
 				Code:    0,
@@ -51,5 +51,5 @@ func GetArticleListSVC(req *article2.GetArticleListReq) (error, *common.Response
 		Curren: req.Current,
 		Size:   req.Size,
 		Total:  total,
-	}
+	}, nil
 }
