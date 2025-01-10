@@ -1,25 +1,27 @@
 package article
 
 import (
+	"ApscBlog/common/constant"
 	common "ApscBlog/common/model"
 	article2 "ApscBlog/model/api/article"
-	"ApscBlog/model/article"
+	"ApscBlog/model/base/article"
 )
 
 func CreateArticleTagSVC(req *article2.CreateArticleTagReq) (*common.Response, error) {
 	articleTag := article.Tag{
-		TagName:  req.TagName,
-		TagCover: req.TagCover,
-		TagIcon:  req.TagIcon,
+		TagName:    req.TagName,
+		TagCover:   req.TagCover,
+		TagIcon:    req.TagIcon,
+		ArticleNum: 0,
 	}
 	err := article.AddArticleTag(&articleTag)
 	if err != nil {
 		return nil, err
 	}
 	return &common.Response{
-		Code:    0,
+		Code:    constant.ActionSuc,
 		Success: true,
-		Message: "Create article type successfully .",
+		Message: "Create article tag successfully .",
 	}, nil
 }
 func UpdateArticleTagSVC(req *article2.UpdateArticleTagReq) (*common.Response, error) {

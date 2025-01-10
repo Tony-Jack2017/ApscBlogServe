@@ -1,7 +1,8 @@
-package model
+package base
 
 import (
 	"ApscBlog/common/model"
+	model2 "ApscBlog/model"
 	"context"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -23,12 +24,12 @@ type User struct {
 
 func AddUser(user *User) error {
 	user.UserID = primitive.NewObjectID()
-	_, err := userConn.InsertOne(context.TODO(), user)
+	_, err := model2.UserConn.InsertOne(context.TODO(), user)
 	return err
 }
 func SearchUser(filter interface{}) (error, *User) {
 	var res User
-	err := userConn.FindOne(context.TODO(), filter).Decode(&res)
+	err := model2.UserConn.FindOne(context.TODO(), filter).Decode(&res)
 	if err != nil {
 		return err, nil
 	}
@@ -36,7 +37,7 @@ func SearchUser(filter interface{}) (error, *User) {
 }
 func UpdateUser(user *User) error {
 	filter := bson.M{"user_id": user.UserID}
-	_, err := userConn.UpdateOne(context.TODO(), filter, user)
+	_, err := model2.UserConn.UpdateOne(context.TODO(), filter, user)
 	return err
 }
 func GetUserList(user *User) (error, *[]User) {
@@ -45,7 +46,7 @@ func GetUserList(user *User) (error, *[]User) {
 	if err != nil {
 		return err, nil
 	}
-	list, err := userConn.Find(context.TODO(), data)
+	list, err := model2.UserConn.Find(context.TODO(), data)
 	if err != nil {
 		return err, nil
 	}

@@ -13,7 +13,7 @@ func init() {
 	router.Use(middleware.CorsMiddleware()).Use(middleware.ErrorMiddleware())
 	v1 := router.Group("/api/v1")
 	RegisterArticleRoutes(v1.Group("/blog"))
-	RegisterAdminRoutes(v1.Group("/admin"))
+	//RegisterAdminRoutes(v1.Group("/admin"))
 	RegisterCommonRoutes(v1.Group("/common"))
 }
 

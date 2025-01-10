@@ -12,8 +12,8 @@ func GetArticleList(ctx *gin.Context) {
 	if !tools.HandleBindReq(ctx, req) {
 		return
 	}
-	err, resp := article2.GetArticleListSVC(&req)
-	tools.HandleResponse(ctx, err, resp)
+	//err, resp := article2.GetArticleListSVC(&req)
+	//tools.HandleResponse(ctx, err, resp)
 }
 func CreateArticle(ctx *gin.Context) {
 	var req article.CreateArticleReq

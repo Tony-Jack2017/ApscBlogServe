@@ -9,12 +9,12 @@ import (
 )
 
 type Type struct {
-	TypeID     int64  `json:"type_id" bson:"type_id"`
-	TypeName   string `json:"type_name" bson:"type_name"`
-	TypeIcon   string `json:"type_icon" bson:"type_icon"`
-	TypeCover  string `json:"type_cover" bson:"type_cover"`
-	ArticleNum int64  `json:"article_num" bson:"article_num"`
-	model.BaseTime
+	TypeID         int64  `json:"type_id" bson:"type_id"`
+	TypeName       string `json:"type_name" bson:"type_name"`
+	TypeIcon       string `json:"type_icon" bson:"type_icon"`
+	TypeCover      string `json:"type_cover" bson:"type_cover"`
+	ArticleNum     int64  `json:"article_num" bson:"article_num"`
+	model.BaseTime `bson:",inline"`
 }
 
 func AddArticleType(articleType *Type) error {

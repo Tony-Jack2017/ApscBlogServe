@@ -3,15 +3,15 @@ package controller
 import (
 	"ApscBlog/common/constant"
 	common "ApscBlog/common/model"
-	"ApscBlog/model"
 	"ApscBlog/model/api"
+	"ApscBlog/model/base"
 	"errors"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
 func VerifyUserSVC(req *api.AccountLoginReq) (*common.Response, error) {
-	err, _ := model.SearchUser(bson.M{"account": req.Account, "password": req.Password})
+	err, _ := base.SearchUser(bson.M{"account": req.Account, "password": req.Password})
 	if errors.Is(err, mongo.ErrNoDocuments) {
 		return &common.Response{
 			Code:    constant.NoFoundErr,
@@ -29,13 +29,13 @@ func VerifyUserSVC(req *api.AccountLoginReq) (*common.Response, error) {
 	}, nil
 }
 func UserCreateSVC(req *api.AccountSignUpReq) (*common.Response, error) {
-	user := model.User{
+	user := base.User{
 		Account:  req.Account,
 		Email:    req.Email,
 		Password: req.Password,
 		Username: req.Account,
 	}
-	err, res := model.SearchUser(bson.M{"$or": []bson.M{{"account": req.Account}, {"email": req.Email}}})
+	err, res := base.SearchUser(bson.M{"$or": []bson.M{{"account": req.Account}, {"email": req.Email}}})
 	if err != nil && !errors.Is(err, mongo.ErrNoDocuments) {
 		return nil, err
 	}
@@ -46,7 +46,7 @@ func UserCreateSVC(req *api.AccountSignUpReq) (*common.Response, error) {
 			Message: "Account or email already existed",
 		}, nil
 	}
-	err = model.AddUser(&user)
+	err = base.AddUser(&user)
 	if err != nil {
 		return nil, err
 	}
@@ -57,8 +57,8 @@ func UserCreateSVC(req *api.AccountSignUpReq) (*common.Response, error) {
 	}, err
 }
 func CheckUserInfoSVC(req *api.GetUserInfoReq) (*common.ResponseWithData, error) {
-	user := model.User{}
-	err, res := model.SearchUser(&user)
+	user := base.User{}
+	err, res := base.SearchUser(&user)
 	if err != nil {
 		return nil, err
 	}
@@ -72,8 +72,8 @@ func CheckUserInfoSVC(req *api.GetUserInfoReq) (*common.ResponseWithData, error)
 	}, nil
 }
 func UpdateUserInfoSVC(req *api.UpdateUserInfoReq) (*common.Response, error) {
-	user := model.User{}
-	err := model.UpdateUser(&user)
+	user := base.User{}
+	err := base.UpdateUser(&user)
 	if err != nil {
 		return nil, err
 	}
@@ -86,8 +86,8 @@ func UpdateUserInfoSVC(req *api.UpdateUserInfoReq) (*common.Response, error) {
 func ModifyPasswordSVC(req *api.ModifyPassword) {
 }
 func GetUserListSVC(req *api.GetUserListReq) (*common.ResponseWithData, error) {
-	user := model.User{}
-	err, list := model.GetUserList(&user)
+	user := base.User{}
+	err, list := base.GetUserList(&user)
 	if err != nil {
 		return nil, err
 	}

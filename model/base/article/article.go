@@ -9,14 +9,14 @@ import (
 )
 
 type ArticleInfo struct {
-	ID          primitive.ObjectID `json:"id" bson:"_id,omitempty,unique"`
-	Cover       string             `json:"cover" bson:"cover"`
-	Title       string             `json:"title" bson:"title"`
-	Description string             `json:"description" bson:"description"`
-	Status      string             `json:"status" bson:"status"` // "Idling" | "Available" | "Pending"
-	Tags        []Tag              `json:"tags" bson:"tags"`
-	Type        Type               `json:"type" bson:"type"`
-	model.BaseTime1
+	ID             primitive.ObjectID `json:"id" bson:"_id,omitempty,unique"`
+	Cover          string             `json:"cover" bson:"cover"`
+	Title          string             `json:"title" bson:"title"`
+	Description    string             `json:"description" bson:"description"`
+	Status         string             `json:"status" bson:"status"` // "Idling" | "Available" | "Pending"
+	Tags           []Tag              `json:"tags" bson:"tags"`
+	Type           Type               `json:"type" bson:"type"`
+	model.BaseTime `bson:",inline"`
 }
 type Article struct {
 	ID            primitive.ObjectID `json:"id" bson:"_id,omitempty,unique"`
@@ -25,7 +25,7 @@ type Article struct {
 }
 
 func AddArticle(info *ArticleInfo, article *Article) error {
-	res, err := model2.ArticleInfoConn.InsertOne(context.TODO(), info)
+	res, err := model2.ArticleConn.InsertOne(context.TODO(), info)
 	id, _ := res.InsertedID.(primitive.ObjectID)
 	article.ArticleInfoID = id
 	_, err = model2.ArticleConn.InsertOne(context.TODO(), article)

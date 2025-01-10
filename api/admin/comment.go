@@ -8,29 +8,29 @@ import (
 )
 
 func CreateComment(ctx *gin.Context) {
-	var req article.CreateCommentReq
+	var req article.CreateArticleCommentReq
 	ok := tools.HandleBindReq(ctx, &req)
 	if !ok {
 		return
 	}
-	resp, err := article2.CreateCommentSVC(&req)
+	resp, err := article2.CreateArticleCommentSVC(&req)
 	tools.HandleResponse(ctx, err, resp)
 }
 func UpdateComment(ctx *gin.Context) {
-	var req article.UpdateCommentReq
+	var req article.UpdateArticleCommentReq
 	ok := tools.HandleBindReq(ctx, &req)
 	if !ok {
 		return
 	}
-	resp, err := article2.UpdateCommentSVC(&req)
+	resp, err := article2.UpdateArticleCommentSVC(&req)
 	tools.HandleResponse(ctx, err, resp)
 }
 func GetCommentList(ctx *gin.Context) {
-	var req article.GetCommentListReq
+	var req article.GetArticleCommentListReq
 	ok := tools.HandleBindReq(ctx, &req)
 	if !ok {
 		return
 	}
-	resp, err := article2.GetCommentListSVC(&req)
+	resp, err := article2.GetArticleCommentListSVC(&req)
 	tools.HandleResponse(ctx, err, resp)
 }

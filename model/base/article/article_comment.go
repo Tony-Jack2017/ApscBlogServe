@@ -9,13 +9,13 @@ import (
 )
 
 type Comment struct {
-	CommentID   int64  `json:"comment_id" bson:"comment_id"`
-	SenderName  string `json:"sender_name" bson:"sender_name"`
-	SenderEmail string `json:"sender_email" bson:"sender_email"`
-	Content     string `json:"content" bson:"content"`
-	Status      string `json:"status" bson:"status"`
-	ArticleID   int64  `bson:"article_id" bson:"article_id"`
-	model.BaseTime
+	CommentID      int64  `json:"comment_id" bson:"comment_id"`
+	SenderName     string `json:"sender_name" bson:"sender_name"`
+	SenderEmail    string `json:"sender_email" bson:"sender_email"`
+	Content        string `json:"content" bson:"content"`
+	Status         string `json:"status" bson:"status"`
+	ArticleID      int64  `bson:"article_id" bson:"article_id"`
+	model.BaseTime `bson:",inline"`
 }
 
 func (c *Comment) TableName() string {

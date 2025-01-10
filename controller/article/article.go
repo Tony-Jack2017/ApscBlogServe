@@ -3,7 +3,7 @@ package article
 import (
 	common "ApscBlog/common/model"
 	article2 "ApscBlog/model/api/article"
-	"ApscBlog/model/article"
+	"ApscBlog/model/base/article"
 	"go.mongodb.org/mongo-driver/bson"
 )
 

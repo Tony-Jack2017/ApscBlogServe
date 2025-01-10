@@ -13,10 +13,6 @@ func RegisterAdminRoutes(admin *gin.RouterGroup) {
 	admin.POST("/comment/update", api.UpdateComment)
 	admin.GET("/comment/list", api.GetCommentList)
 
-	admin.POST("/project/create", api.CreateProject)
-	admin.POST("/project/update", api.UpdateProject)
-	admin.GET("/project/list", api.GetProjectList)
-
 }
 
 func UserRoutes(user *gin.RouterGroup) {
