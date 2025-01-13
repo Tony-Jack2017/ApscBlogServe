@@ -4,10 +4,19 @@ import (
 	common "ApscBlog/common/model"
 	article2 "ApscBlog/model/api/article"
 	"ApscBlog/model/base/article"
+	"fmt"
+	"strconv"
+	"time"
 )
 
 func CreateArticleCommentSVC(req *article2.CreateArticleCommentReq) (*common.Response, error) {
+	str := fmt.Sprintf("%d%s", time.Now().Unix(), "001518")
+	commentID, errTrans := strconv.ParseInt(str, 10, 64)
+	if errTrans != nil {
+		return nil, errTrans
+	}
 	comment := article.Comment{
+		CommentID:   commentID,
 		SenderName:  req.SenderName,
 		SenderEmail: req.SenderEmail,
 		ArticleID:   req.ArticleID,

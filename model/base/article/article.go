@@ -5,28 +5,29 @@ import (
 	model2 "ApscBlog/model"
 	"ApscBlog/tools"
 	"context"
-	"go.mongodb.org/mongo-driver/bson/primitive"
+	"time"
 )
 
 type ArticleInfo struct {
-	ID             primitive.ObjectID `json:"id" bson:"_id,omitempty,unique"`
-	Cover          string             `json:"cover" bson:"cover"`
-	Title          string             `json:"title" bson:"title"`
-	Description    string             `json:"description" bson:"description"`
-	Status         string             `json:"status" bson:"status"` // "Idling" | "Available" | "Pending"
-	Tags           []int64            `json:"tags" bson:"tags"`
-	TypeID         []int64            `json:"type" bson:"type"`
+	ArticleInfoID  int64   `json:"article_info_id" bson:"_id,omitempty,unique"`
+	Cover          string  `json:"cover" bson:"cover"`
+	Title          string  `json:"title" bson:"title"`
+	Description    string  `json:"description" bson:"description"`
+	Status         string  `json:"status" bson:"status"` // "Idling" | "Available" | "Pending"
+	Tags           []int64 `json:"tags" bson:"tags"`
+	TypeID         []int64 `json:"type" bson:"type"`
 	model.BaseTime `bson:",inline"`
 }
 type Article struct {
-	ID            primitive.ObjectID `json:"id" bson:"_id,omitempty,unique"`
-	ArticleInfoID primitive.ObjectID `json:"article_info_id" bson:"article_info_id"`
-	Content       string             `json:"content" bson:"content"`
+	ArticleID     int64  `json:"article_id" bson:"_id,omitempty,unique"`
+	ArticleInfoID int64  `json:"article_info_id" bson:"article_info_id"`
+	Content       string `json:"content" bson:"content"`
 }
 
 func AddArticle(info *ArticleInfo, article *Article) error {
+	info.CreatedAt = model.LocalTime(time.Now())
 	res, err := model2.ArticleInfoConn.InsertOne(context.TODO(), info)
-	id, _ := res.InsertedID.(primitive.ObjectID)
+	id, _ := res.InsertedID.(int64)
 	article.ArticleInfoID = id
 	_, err = model2.ArticleConn.InsertOne(context.TODO(), article)
 	if err != nil {

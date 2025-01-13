@@ -6,10 +6,11 @@ import (
 	"ApscBlog/tools"
 	"context"
 	"go.mongodb.org/mongo-driver/bson"
+	"time"
 )
 
 type Comment struct {
-	CommentID      int64  `json:"comment_id" bson:"comment_id"`
+	CommentID      int64  `json:"comment_id" bson:"_id"`
 	SenderName     string `json:"sender_name" bson:"sender_name"`
 	SenderEmail    string `json:"sender_email" bson:"sender_email"`
 	Content        string `json:"content" bson:"content"`
@@ -23,6 +24,7 @@ func (c *Comment) TableName() string {
 }
 
 func AddComment(comment *Comment) error {
+	comment.CreatedAt = model.LocalTime(time.Now())
 	_, err := model2.ArticleCommentConn.InsertOne(context.TODO(), comment)
 	return err
 }

@@ -4,18 +4,28 @@ import (
 	common "ApscBlog/common/model"
 	article2 "ApscBlog/model/api/article"
 	"ApscBlog/model/base/article"
+	"fmt"
 	"go.mongodb.org/mongo-driver/bson"
+	"strconv"
+	"time"
 )
 
 func CreateArticleSVC(req *article2.CreateArticleReq) (*common.Response, error) {
+	str := fmt.Sprintf("%d%s", time.Now().Unix(), "001518")
+	articleID, errTrans := strconv.ParseInt(str, 10, 64)
+	if errTrans != nil {
+		return nil, errTrans
+	}
 	articleInfo := &article.ArticleInfo{
-		Title:       req.Title,
-		Cover:       req.Cover,
-		Description: req.Description,
-		Status:      "Available",
+		ArticleInfoID: articleID,
+		Title:         req.Title,
+		Cover:         req.Cover,
+		Description:   req.Description,
+		Status:        "Available",
 	}
 	cacheArticle := &article.Article{
-		Content: req.Content,
+		ArticleID: articleID,
+		Content:   req.Content,
 	}
 	err := article.AddArticle(articleInfo, cacheArticle)
 	if err != nil {

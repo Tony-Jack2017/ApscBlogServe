@@ -12,10 +12,15 @@ func RegisterArticleRoutes(app *gin.RouterGroup) {
 
 	app.GET("/article/comment/list", article.GetArticleCommentList)
 	app.POST("/article/comment/push", article.CreateArticleComment)
-	app.POST("/article/comment/edit", article.UpdateArticleComment)
+	app.PUT("/article/comment/edit", article.UpdateArticleComment)
+
 	app.GET("/article/tag/list", article.GetArticleTagList)
 	app.POST("/article/tag/add", article.CreateArticleTagList)
-	app.POST("/article/tag/update", article.UpdateArticleTagList)
+	app.PUT("/article/tag/update", article.UpdateArticleTagList)
+
+	app.GET("/article/type/list", article.GetArticleTypeList)
+	app.POST("/article/type/add", article.CreateArticleTypeList)
+	app.PUT("/article/type/update", article.UpdateArticleTypeList)
 
 	app.GET("/author/list")
 	app.GET("/author/:author_id")

@@ -4,10 +4,19 @@ import (
 	common "ApscBlog/common/model"
 	article2 "ApscBlog/model/api/article"
 	"ApscBlog/model/base/article"
+	"fmt"
+	"strconv"
+	"time"
 )
 
 func CreateArticleTypeSVC(req *article2.CreateArticleTypeReq) (*common.Response, error) {
+	str := fmt.Sprintf("%d%s", time.Now().Unix(), "001518")
+	typeID, errTrans := strconv.ParseInt(str, 10, 64)
+	if errTrans != nil {
+		return nil, errTrans
+	}
 	articleType := article.Type{
+		TypeID:    typeID,
 		TypeName:  req.TypeName,
 		TypeCover: req.TypeCover,
 		TypeIcon:  req.TypeIcon,

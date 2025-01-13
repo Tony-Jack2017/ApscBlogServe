@@ -6,6 +6,7 @@ import (
 	"ApscBlog/tools"
 	"context"
 	"go.mongodb.org/mongo-driver/bson"
+	"time"
 )
 
 type Type struct {
@@ -18,6 +19,7 @@ type Type struct {
 }
 
 func AddArticleType(articleType *Type) error {
+	articleType.CreatedAt = model.LocalTime(time.Now())
 	_, err := model2.ArticleTypeConn.InsertOne(context.TODO(), articleType)
 	return err
 }

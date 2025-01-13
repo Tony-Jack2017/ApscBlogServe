@@ -6,10 +6,11 @@ import (
 	"ApscBlog/tools"
 	"context"
 	"go.mongodb.org/mongo-driver/bson"
+	"time"
 )
 
 type Tag struct {
-	TagID          int64  `json:"tag_id" bson:"tag_id"`
+	TagID          int64  `json:"tag_id" bson:"_id"`
 	TagName        string `json:"tag_name" bson:"tag_name"`
 	TagIcon        string `json:"tag_icon" bson:"tag_icon"`
 	TagCover       string `json:"tag_cover" bson:"tag_cover"`
@@ -18,6 +19,7 @@ type Tag struct {
 }
 
 func AddArticleTag(tag *Tag) error {
+	tag.CreatedAt = model.LocalTime(time.Now())
 	_, err := model2.ArticleTagConn.InsertOne(context.TODO(), tag)
 	if err != nil {
 		return err

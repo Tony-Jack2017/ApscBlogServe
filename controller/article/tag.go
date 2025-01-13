@@ -5,10 +5,19 @@ import (
 	common "ApscBlog/common/model"
 	article2 "ApscBlog/model/api/article"
 	"ApscBlog/model/base/article"
+	"fmt"
+	"strconv"
+	"time"
 )
 
 func CreateArticleTagSVC(req *article2.CreateArticleTagReq) (*common.Response, error) {
+	str := fmt.Sprintf("%d%s", time.Now().Unix(), "001518")
+	tagID, errTrans := strconv.ParseInt(str, 10, 64)
+	if errTrans != nil {
+		return nil, errTrans
+	}
 	articleTag := article.Tag{
+		TagID:      tagID,
 		TagName:    req.TagName,
 		TagCover:   req.TagCover,
 		TagIcon:    req.TagIcon,
