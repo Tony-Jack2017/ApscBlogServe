@@ -6,6 +6,7 @@ import (
 )
 
 var ArticleConn *mongo.Collection
+var ArticleInfoConn *mongo.Collection
 var ArticleTagConn *mongo.Collection
 var ArticleTypeConn *mongo.Collection
 var ArticleCommentConn *mongo.Collection
@@ -13,6 +14,7 @@ var UserConn *mongo.Collection
 
 func InitModel() {
 	ArticleConn = db.MgoConn.Collection("articles")
+	ArticleInfoConn = db.MgoConn.Collection("article_infos")
 	ArticleTagConn = db.MgoConn.Collection("article_tags")
 	ArticleTypeConn = db.MgoConn.Collection("article_types")
 	ArticleCommentConn = db.MgoConn.Collection("article_comments")
