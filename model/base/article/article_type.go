@@ -9,7 +9,7 @@ import (
 )
 
 type Type struct {
-	TypeID         int64  `json:"type_id" bson:"type_id"`
+	TypeID         int64  `json:"type_id" bson:"_id"`
 	TypeName       string `json:"type_name" bson:"type_name"`
 	TypeIcon       string `json:"type_icon" bson:"type_icon"`
 	TypeCover      string `json:"type_cover" bson:"type_cover"`
