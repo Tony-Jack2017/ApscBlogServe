@@ -25,7 +25,7 @@ type Article struct {
 }
 
 func AddArticle(info *ArticleInfo, article *Article) error {
-	res, err := model2.ArticleConn.InsertOne(context.TODO(), info)
+	res, err := model2.ArticleInfoConn.InsertOne(context.TODO(), info)
 	id, _ := res.InsertedID.(primitive.ObjectID)
 	article.ArticleInfoID = id
 	_, err = model2.ArticleConn.InsertOne(context.TODO(), article)
