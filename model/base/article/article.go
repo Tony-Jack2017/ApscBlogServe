@@ -9,7 +9,7 @@ import (
 )
 
 type ArticleInfo struct {
-	ArticleInfoID  int64   `json:"article_info_id" bson:"_id,omitempty,unique"`
+	ArticleInfoID  int64   `json:"article_info_id" bson:"article_info_id,omitempty,unique"`
 	Cover          string  `json:"cover" bson:"cover"`
 	Title          string  `json:"title" bson:"title"`
 	Description    string  `json:"description" bson:"description"`
@@ -19,7 +19,7 @@ type ArticleInfo struct {
 	model.BaseTime `bson:",inline"`
 }
 type Article struct {
-	ArticleID     int64  `json:"article_id" bson:"_id,omitempty,unique"`
+	ArticleID     int64  `json:"article_id" bson:"article_id,omitempty,unique"`
 	ArticleInfoID int64  `json:"article_info_id" bson:"article_info_id"`
 	Content       string `json:"content" bson:"content"`
 }
@@ -37,22 +37,20 @@ func AddArticle(info *ArticleInfo, article *Article) error {
 }
 func UpdateArticle() {
 }
-func GetArticles(pag *model.Pagination, filter interface{}) (error, *[]ArticleInfo) {
-	var list []ArticleInfo
-	cursor, err := model2.ArticleConn.Find(context.TODO(), filter, tools.PagFind(pag))
-	if err != nil {
-		return err, nil
+func GetArticleList(article *ArticleInfo, pagination *model.Pagination) (*[]ArticleInfo, int64, error) {
+	var res []ArticleInfo
+	data := tools.CleanEmptyFields(*article)
+	list, errRes := model2.ArticleInfoConn.Find(context.TODO(), data, tools.PagFind(pagination))
+	if errRes != nil {
+		return nil, 0, errRes
 	}
-	err = cursor.All(context.TODO(), &list)
-	if err != nil {
-		return err, nil
+	errDec := list.All(context.TODO(), &res)
+	if errDec != nil {
+		return nil, 0, errDec
 	}
-	return nil, &list
-}
-func GetArticlesCount(filter interface{}) (error, int64) {
-	count, err := model2.ArticleConn.CountDocuments(context.TODO(), filter)
-	if err != nil {
-		return err, 0
+	count, errCount := model2.ArticleInfoConn.CountDocuments(context.Background(), data)
+	if errDec != nil {
+		return nil, 0, errCount
 	}
-	return nil, count
+	return &res, count, nil
 }

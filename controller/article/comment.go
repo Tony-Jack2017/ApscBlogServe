@@ -52,7 +52,7 @@ func GetArticleCommentListSVC(req *article2.GetArticleCommentListReq) (*common.R
 		Current: req.Current,
 		Size:    req.Size,
 	}
-	list, err := article.GetCommentList(&comment, &pagination)
+	list, total, err := article.GetCommentList(&comment, &pagination)
 	if err != nil {
 		return nil, err
 	}
@@ -67,5 +67,8 @@ func GetArticleCommentListSVC(req *article2.GetArticleCommentListReq) (*common.R
 				"list": list,
 			},
 		},
+		Current: *req.Current,
+		Size:    req.Size,
+		Total:   total,
 	}, nil
 }

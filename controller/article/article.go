@@ -5,7 +5,6 @@ import (
 	article2 "ApscBlog/model/api/article"
 	"ApscBlog/model/base/article"
 	"fmt"
-	"go.mongodb.org/mongo-driver/bson"
 	"strconv"
 	"time"
 )
@@ -38,14 +37,12 @@ func CreateArticleSVC(req *article2.CreateArticleReq) (*common.Response, error) 
 	}, nil
 }
 func GetArticleListSVC(req *article2.GetArticleListReq) (*common.ResponseWithList, error) {
-	err, total := article.GetArticlesCount(bson.D{})
-	if err != nil {
-		return nil, err
-	}
-	err, list := article.GetArticles(&common.Pagination{
+	info := article.ArticleInfo{}
+	pagination := common.Pagination{
 		Current: req.Current,
 		Size:    req.Size,
-	}, bson.D{})
+	}
+	list, total, err := article.GetArticleList(&info, &pagination)
 	if err != nil {
 		return nil, err
 	}
@@ -58,8 +55,8 @@ func GetArticleListSVC(req *article2.GetArticleListReq) (*common.ResponseWithLis
 			},
 			Data: list,
 		},
-		Curren: req.Current,
-		Size:   req.Size,
-		Total:  total,
+		Current: *req.Current,
+		Size:    req.Size,
+		Total:   total,
 	}, nil
 }

@@ -10,7 +10,7 @@ import (
 )
 
 type Tag struct {
-	TagID          int64  `json:"tag_id" bson:"_id"`
+	TagID          int64  `json:"tag_id" bson:"tag_id"`
 	TagName        string `json:"tag_name" bson:"tag_name"`
 	TagIcon        string `json:"tag_icon" bson:"tag_icon"`
 	TagCover       string `json:"tag_cover" bson:"tag_cover"`
@@ -34,19 +34,20 @@ func UpdateArticleTag(tag *Tag) error {
 	}
 	return nil
 }
-func GetArticleTagList(tag *Tag, pagination *model.Pagination) (*[]Tag, error) {
-	var res *[]Tag
-	data, err := bson.Marshal(tag)
-	if err != nil {
-		return nil, err
+func GetArticleTagList(articleTag *Tag, pagination *model.Pagination) (*[]Tag, int64, error) {
+	var res []Tag
+	data := tools.CleanEmptyFields(*articleTag)
+	list, errRes := model2.ArticleTagConn.Find(context.TODO(), data, tools.PagFind(pagination))
+	if errRes != nil {
+		return nil, 0, errRes
 	}
-	list, err := model2.ArticleTagConn.Find(context.TODO(), data, tools.PagFind(pagination))
-	if err != nil {
-		return nil, err
+	errDec := list.All(context.TODO(), &res)
+	if errDec != nil {
+		return nil, 0, errDec
 	}
-	err = list.Decode(&res)
-	if err != nil {
-		return nil, err
+	count, errCount := model2.ArticleTagConn.CountDocuments(context.Background(), data)
+	if errDec != nil {
+		return nil, 0, errCount
 	}
-	return res, nil
+	return &res, count, nil
 }

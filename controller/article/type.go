@@ -54,7 +54,7 @@ func GetArticleTypeListSVC(req *article2.GetArticleTypeListReq) (*common.Respons
 		Current: req.Current,
 		Size:    req.Size,
 	}
-	list, err := article.GetArticleTypeList(&articleType, &pagination)
+	list, total, err := article.GetArticleTypeList(&articleType, &pagination)
 	if err != nil {
 		return nil, err
 	}
@@ -69,5 +69,8 @@ func GetArticleTypeListSVC(req *article2.GetArticleTypeListReq) (*common.Respons
 				"list": list,
 			},
 		},
+		Current: *req.Current,
+		Size:    req.Size,
+		Total:   total,
 	}, nil
 }

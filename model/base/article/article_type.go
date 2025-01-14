@@ -10,7 +10,7 @@ import (
 )
 
 type Type struct {
-	TypeID         int64  `json:"type_id" bson:"_id"`
+	TypeID         int64  `json:"type_id" bson:"type_id"`
 	TypeName       string `json:"type_name" bson:"type_name"`
 	TypeIcon       string `json:"type_icon" bson:"type_icon"`
 	TypeCover      string `json:"type_cover" bson:"type_cover"`
@@ -28,19 +28,20 @@ func UpdateArticleType(articleType *Type) error {
 	_, err := model2.ArticleTypeConn.UpdateOne(context.TODO(), filter, articleType)
 	return err
 }
-func GetArticleTypeList(articleType *Type, pagination *model.Pagination) (*[]Type, error) {
-	var res *[]Type
-	data, err := bson.Marshal(articleType)
-	if err != nil {
-		return nil, err
-	}
-	list, errRes := model2.ArticleCommentConn.Find(context.TODO(), data, tools.PagFind(pagination))
+func GetArticleTypeList(articleType *Type, pagination *model.Pagination) (*[]Type, int64, error) {
+	var res []Type
+	data := tools.CleanEmptyFields(*articleType)
+	list, errRes := model2.ArticleTypeConn.Find(context.TODO(), data, tools.PagFind(pagination))
 	if errRes != nil {
-		return nil, err
+		return nil, 0, errRes
 	}
-	err = list.Decode(&res)
-	if err != nil {
-		return nil, err
+	errDec := list.All(context.TODO(), &res)
+	if errDec != nil {
+		return nil, 0, errDec
 	}
-	return res, nil
+	count, errCount := model2.ArticleTypeConn.CountDocuments(context.Background(), data)
+	if errDec != nil {
+		return nil, 0, errCount
+	}
+	return &res, count, nil
 }

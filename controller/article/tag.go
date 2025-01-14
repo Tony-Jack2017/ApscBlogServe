@@ -56,7 +56,7 @@ func GetArticleTagListSVC(req *article2.GetArticleTagListReq) (*common.ResponseW
 		Current: req.Current,
 		Size:    req.Size,
 	}
-	list, err := article.GetArticleTagList(&articleTag, &pagination)
+	list, total, err := article.GetArticleTagList(&articleTag, &pagination)
 	if err != nil {
 		return nil, err
 	}
@@ -71,5 +71,8 @@ func GetArticleTagListSVC(req *article2.GetArticleTagListReq) (*common.ResponseW
 				"list": list,
 			},
 		},
+		Current: *req.Current,
+		Size:    req.Size,
+		Total:   total,
 	}, nil
 }

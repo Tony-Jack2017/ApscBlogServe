@@ -10,7 +10,7 @@ import (
 )
 
 type Comment struct {
-	CommentID      int64  `json:"comment_id" bson:"_id"`
+	CommentID      int64  `json:"comment_id" bson:"comment_id"`
 	SenderName     string `json:"sender_name" bson:"sender_name"`
 	SenderEmail    string `json:"sender_email" bson:"sender_email"`
 	Content        string `json:"content" bson:"content"`
@@ -33,19 +33,20 @@ func UpdateComment(comment *Comment) error {
 	_, err := model2.ArticleCommentConn.UpdateOne(context.TODO(), filter, comment)
 	return err
 }
-func GetCommentList(comment *Comment, pagination *model.Pagination) (*[]Comment, error) {
-	var res *[]Comment
-	data, err := bson.Marshal(comment)
-	if err != nil {
-		return nil, err
-	}
+func GetCommentList(articleComment *Comment, pagination *model.Pagination) (*[]Comment, int64, error) {
+	var res []Comment
+	data := tools.CleanEmptyFields(*articleComment)
 	list, errRes := model2.ArticleCommentConn.Find(context.TODO(), data, tools.PagFind(pagination))
 	if errRes != nil {
-		return nil, err
+		return nil, 0, errRes
 	}
-	err = list.Decode(&res)
-	if err != nil {
-		return nil, err
+	errDec := list.All(context.TODO(), &res)
+	if errDec != nil {
+		return nil, 0, errDec
 	}
-	return res, nil
+	count, errCount := model2.ArticleCommentConn.CountDocuments(context.Background(), data)
+	if errDec != nil {
+		return nil, 0, errCount
+	}
+	return &res, count, nil
 }

@@ -14,5 +14,5 @@ type UpdateArticleTagReq struct {
 	TagCover string `json:"tag_cover" form:"tag_cover"`
 }
 type GetArticleTagListReq struct {
-	common.Pagination
+	common.Pagination `json:"-"`
 }
