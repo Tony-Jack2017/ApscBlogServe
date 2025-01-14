@@ -18,9 +18,9 @@ type Tag struct {
 	model.BaseTime `bson:",inline"`
 }
 
-func AddArticleTag(tag *Tag) error {
-	tag.CreatedAt = model.LocalTime(time.Now())
-	_, err := model2.ArticleTagConn.InsertOne(context.TODO(), tag)
+func AddArticleTag(articleTag *Tag) error {
+	articleTag.CreatedAt = model.LocalTime(time.Now())
+	_, err := model2.ArticleTagConn.InsertOne(context.TODO(), articleTag)
 	if err != nil {
 		return err
 	}
