@@ -8,9 +8,9 @@ type GetArticleListReq struct {
 }
 type CreateArticleReq struct {
 	Title       string  `json:"title" binding:"required"`
-	Cover       string  `json:"cover"`
-	TagList     []int32 `json:"tag_list"`
-	Type        int32   `json:"type"`
+	Cover       string  `json:"cover" binding:"required"`
+	TagList     []int32 `json:"tag_list" binding:"required"`
+	Type        int32   `json:"type"  binding:"required"`
 	Content     string  `json:"content"  binding:"required"`
 	Description string  `json:"description" binding:"required"`
 }
