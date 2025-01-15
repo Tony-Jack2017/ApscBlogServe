@@ -40,7 +40,7 @@ func UpdateArticleTagSVC(req *article2.UpdateArticleTagReq) (*common.Response, e
 		TagCover: req.TagCover,
 		TagIcon:  req.TagIcon,
 	}
-	err := article.UpdateArticleTag(&articleTag)
+	err := article.UpdateArticleTag(&articleTag, nil)
 	if err != nil {
 		return nil, err
 	}

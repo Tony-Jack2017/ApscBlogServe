@@ -8,7 +8,7 @@ import (
 func RegisterArticleRoutes(app *gin.RouterGroup) {
 	app.GET("/article/list", article.GetArticleList)
 	app.GET("/article/:article_id")
-	app.POST("/article/create", article.CreateArticle)
+	app.POST("/article/add", article.CreateArticle)
 
 	app.GET("/article/comment/list", article.GetArticleCommentList)
 	app.POST("/article/comment/push", article.CreateArticleComment)

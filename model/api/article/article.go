@@ -9,21 +9,21 @@ type GetArticleListReq struct {
 type CreateArticleReq struct {
 	Title       string  `json:"title" binding:"required"`
 	Cover       string  `json:"cover" binding:"required"`
-	TagList     []int32 `json:"tag_list" binding:"required"`
-	Type        int32   `json:"type"  binding:"required"`
+	TagList     []int64 `json:"tag_list" binding:"required"`
+	Type        int64   `json:"type"  binding:"required"`
 	Content     string  `json:"content"  binding:"required"`
 	Description string  `json:"description" binding:"required"`
 }
 type GetArticleContentReq struct {
-	ArticleID     int32 `json:"article_id" form:"article_id"`
-	ArticleInfoID int32 `json:"article_info_id" form:"article_info_id"`
+	ArticleID     int64 `json:"article_id" form:"article_id"`
+	ArticleInfoID int64 `json:"article_info_id" form:"article_info_id"`
 }
 type UpdateArticleReq struct {
-	ArticleInfoID int32  `json:"article_info_id" form:"article_info_id"`
+	ArticleInfoID int64  `json:"article_info_id" form:"article_info_id"`
 	Cover         string `json:"cover" form:"cover"`
 }
 type UpdateArticleContentReq struct {
-	ArticleID int32  `json:"article_id"`
+	ArticleID int64  `json:"article_id"`
 	Content   string `json:"content"`
 }
 

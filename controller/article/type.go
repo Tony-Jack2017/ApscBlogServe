@@ -38,7 +38,7 @@ func UpdateArticleTypeSVC(req *article2.UpdateArticleTypeReq) (*common.Response,
 		TypeCover: req.TypeCover,
 		TypeIcon:  req.TypeIcon,
 	}
-	err := article.UpdateArticleType(&articleType)
+	err := article.UpdateArticleType(&articleType, nil)
 	if err != nil {
 		return nil, err
 	}

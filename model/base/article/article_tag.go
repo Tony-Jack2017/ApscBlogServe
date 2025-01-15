@@ -6,6 +6,7 @@ import (
 	"ApscBlog/tools"
 	"context"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/mongo"
 	"time"
 )
 
@@ -26,9 +27,14 @@ func AddArticleTag(articleTag *Tag) error {
 	}
 	return nil
 }
-func UpdateArticleTag(tag *Tag) error {
+func UpdateArticleTag(tag *Tag, action bson.M) error {
+	var err error
 	filter := bson.M{"tag_id": tag.TagID}
-	_, err := model2.ArticleTagConn.UpdateOne(context.TODO(), filter, tag)
+	if action != nil {
+		_, err = model2.ArticleTagConn.UpdateOne(context.TODO(), filter, action)
+	} else {
+		_, err = model2.ArticleTagConn.UpdateOne(context.TODO(), filter, tag)
+	}
 	if err != nil {
 		return err
 	}
@@ -36,8 +42,14 @@ func UpdateArticleTag(tag *Tag) error {
 }
 func GetArticleTagList(articleTag *Tag, pagination *model.Pagination) (*[]Tag, int64, error) {
 	var res []Tag
+	var list *mongo.Cursor
+	var errRes error
 	data := tools.CleanEmptyFields(*articleTag)
-	list, errRes := model2.ArticleTagConn.Find(context.TODO(), data, tools.PagFind(pagination))
+	if pagination != nil {
+		list, errRes = model2.ArticleTagConn.Find(context.TODO(), data, tools.PagFind(pagination))
+	} else {
+		list, errRes = model2.ArticleTagConn.Find(context.TODO(), data)
+	}
 	if errRes != nil {
 		return nil, 0, errRes
 	}

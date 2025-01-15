@@ -23,9 +23,14 @@ func AddArticleType(articleType *Type) error {
 	_, err := model2.ArticleTypeConn.InsertOne(context.TODO(), articleType)
 	return err
 }
-func UpdateArticleType(articleType *Type) error {
+func UpdateArticleType(articleType *Type, action bson.M) error {
+	var err error
 	filter := bson.M{"type_id": articleType.TypeID}
-	_, err := model2.ArticleTypeConn.UpdateOne(context.TODO(), filter, articleType)
+	if action != nil {
+		_, err = model2.ArticleTypeConn.UpdateOne(context.TODO(), filter, action)
+	} else {
+		_, err = model2.ArticleTypeConn.UpdateOne(context.TODO(), filter, articleType)
+	}
 	return err
 }
 func GetArticleTypeList(articleType *Type, pagination *model.Pagination) (*[]Type, int64, error) {

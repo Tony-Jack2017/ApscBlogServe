@@ -5,6 +5,7 @@ import (
 	article2 "ApscBlog/model/api/article"
 	"ApscBlog/model/base/article"
 	"fmt"
+	"go.mongodb.org/mongo-driver/bson"
 	"strconv"
 	"time"
 )
@@ -20,6 +21,8 @@ func CreateArticleSVC(req *article2.CreateArticleReq) (*common.Response, error) 
 		Title:         req.Title,
 		Cover:         req.Cover,
 		Description:   req.Description,
+		Tags:          req.TagList,
+		TypeID:        req.Type,
 		Status:        "Available",
 	}
 	cacheArticle := &article.Article{
@@ -27,6 +30,7 @@ func CreateArticleSVC(req *article2.CreateArticleReq) (*common.Response, error) 
 		Content:   req.Content,
 	}
 	err := article.AddArticle(articleInfo, cacheArticle)
+	err = articleEffect(articleInfo)
 	if err != nil {
 		return nil, err
 	}
@@ -59,4 +63,28 @@ func GetArticleListSVC(req *article2.GetArticleListReq) (*common.ResponseWithLis
 		Size:    req.Size,
 		Total:   total,
 	}, nil
+}
+
+func articleEffect(info *article.ArticleInfo) error {
+	var errTag error
+	var errType error
+	for _, tagID := range info.Tags {
+		errTag = article.UpdateArticleTag(&article.Tag{
+			TagID: tagID,
+		}, bson.M{
+			"$inc": bson.M{"article_num": 1},
+		})
+	}
+	errType = article.UpdateArticleType(&article.Type{
+		TypeID: info.TypeID,
+	}, bson.M{
+		"$inc": bson.M{"article_num": 1},
+	})
+	if errTag != nil {
+		return errTag
+	}
+	if errType != nil {
+		return errType
+	}
+	return nil
 }

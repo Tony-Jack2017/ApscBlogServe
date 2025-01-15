@@ -15,7 +15,7 @@ type ArticleInfo struct {
 	Description    string  `json:"description" bson:"description"`
 	Status         string  `json:"status" bson:"status"` // "Idling" | "Available" | "Pending"
 	Tags           []int64 `json:"tags" bson:"tags"`
-	TypeID         []int64 `json:"type" bson:"type"`
+	TypeID         int64   `json:"type" bson:"type"`
 	model.BaseTime `bson:",inline"`
 }
 type Article struct {
