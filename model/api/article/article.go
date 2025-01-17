@@ -14,10 +14,7 @@ type CreateArticleReq struct {
 	Content     string  `json:"content"  binding:"required"`
 	Description string  `json:"description" binding:"required"`
 }
-type GetArticleContentReq struct {
-	ArticleID     int64 `json:"article_id" form:"article_id"`
-	ArticleInfoID int64 `json:"article_info_id" form:"article_info_id"`
-}
+
 type UpdateArticleReq struct {
 	ArticleInfoID int64  `json:"article_info_id" form:"article_info_id"`
 	Cover         string `json:"cover" form:"cover"`
@@ -25,8 +22,4 @@ type UpdateArticleReq struct {
 type UpdateArticleContentReq struct {
 	ArticleID int64  `json:"article_id"`
 	Content   string `json:"content"`
-}
-
-func AddArticle() {
-
 }

@@ -10,6 +10,11 @@ import (
 	"time"
 )
 
+type getArticleResp struct {
+	article.ArticleInfo
+	article.Article
+}
+
 func CreateArticleSVC(req *article2.CreateArticleReq) (*common.Response, error) {
 	str := fmt.Sprintf("%d%s", time.Now().Unix(), "001518")
 	articleID, errTrans := strconv.ParseInt(str, 10, 64)
@@ -26,8 +31,8 @@ func CreateArticleSVC(req *article2.CreateArticleReq) (*common.Response, error) 
 		Status:        "Available",
 	}
 	cacheArticle := &article.Article{
-		ArticleID: articleID,
-		Content:   req.Content,
+		ArticleInfoID: articleID,
+		Content:       req.Content,
 	}
 	err := article.AddArticle(articleInfo, cacheArticle)
 	err = articleEffect(articleInfo)
@@ -38,6 +43,24 @@ func CreateArticleSVC(req *article2.CreateArticleReq) (*common.Response, error) 
 		Code:    0,
 		Success: true,
 		Message: "Create article successfully .",
+	}, nil
+}
+func GetArticleSVC(articleInfoID int64) (*common.ResponseWithData, error) {
+	resInfo, resCnt, err := article.GetArticle(articleInfoID)
+	if err != nil {
+		return nil, err
+	}
+	resp := getArticleResp{
+		*resInfo,
+		*resCnt,
+	}
+	return &common.ResponseWithData{
+		Response: common.Response{
+			Code:    0,
+			Success: true,
+			Message: "Search the article list successfully !!!",
+		},
+		Data: resp,
 	}, nil
 }
 func GetArticleListSVC(req *article2.GetArticleListReq) (*common.ResponseWithList, error) {

@@ -5,6 +5,11 @@ import (
 	model2 "ApscBlog/model"
 	"ApscBlog/tools"
 	"context"
+	"errors"
+	"fmt"
+	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/mongo"
+	"log"
 	"time"
 )
 
@@ -19,24 +24,46 @@ type ArticleInfo struct {
 	model.BaseTime `bson:",inline"`
 }
 type Article struct {
-	ArticleID     int64  `json:"article_id" bson:"article_id,omitempty,unique"`
-	ArticleInfoID int64  `json:"article_info_id" bson:"article_info_id"`
+	ArticleInfoID int64  `json:"article_info_id" bson:"article_info_id,omitempty,unique"`
 	Content       string `json:"content" bson:"content"`
 }
 
 func AddArticle(info *ArticleInfo, article *Article) error {
 	info.CreatedAt = model.LocalTime(time.Now())
-	res, err := model2.ArticleInfoConn.InsertOne(context.TODO(), info)
-	id, _ := res.InsertedID.(int64)
-	article.ArticleInfoID = id
+	_, err := model2.ArticleInfoConn.InsertOne(context.TODO(), info)
 	_, err = model2.ArticleConn.InsertOne(context.TODO(), article)
 	if err != nil {
 		return err
 	}
 	return nil
 }
-func UpdateArticle() {
+func UpdateArticle(article *Article) {
 }
+
+func GetArticle(articleInfoID int64) (*ArticleInfo, *Article, error) {
+	var info ArticleInfo
+	var cnt Article
+	err := model2.ArticleInfoConn.FindOne(context.TODO(), bson.D{{"article_info_id", articleInfoID}}).Decode(&info)
+	if err != nil {
+		if errors.Is(err, mongo.ErrNoDocuments) {
+			fmt.Println("No document found with the given filter")
+		} else {
+			log.Fatal(err)
+		}
+		return nil, nil, err
+	}
+	err = model2.ArticleConn.FindOne(context.TODO(), bson.D{{"article_info_id", articleInfoID}}).Decode(&cnt)
+	if err != nil {
+		if errors.Is(err, mongo.ErrNoDocuments) {
+			fmt.Println("No document found with the given filter")
+		} else {
+			log.Fatal(err)
+		}
+		return nil, nil, err
+	}
+	return &info, &cnt, nil
+}
+
 func GetArticleList(article *ArticleInfo, pagination *model.Pagination) (*[]ArticleInfo, int64, error) {
 	var res []ArticleInfo
 	data := tools.CleanEmptyFields(*article)
