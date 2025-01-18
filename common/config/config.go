@@ -12,8 +12,10 @@ type ApiConfig struct {
 	Port int    `json:"port"`
 }
 type MongoConfig struct {
-	Host string `json:"host"`
-	Port int    `json:"port"`
+	Host     string `json:"host"`
+	Port     int    `json:"port"`
+	Username string `json:"username"`
+	Password string `json:"password"`
 }
 type MinioConfig struct {
 	Host            string `json:"host"`
@@ -29,7 +31,7 @@ type Config struct {
 }
 
 func ReadConfig() {
-	viper.SetConfigName("config_dev")
+	viper.SetConfigName("config_pro")
 	viper.SetConfigType("yaml")
 	viper.AddConfigPath("./common/config/yaml")
 	err := viper.ReadInConfig()

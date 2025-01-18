@@ -1,7 +1,16 @@
 api:
-  host: "localhost"
+  host: "127.0.0.1"
   port: 9527
 
 mongo:
+  host: "127.0.0.1"
+  port: 27017
+  username: "ganweiren"
+  password: "Ghj201711#"
+
+minio:
   host: "192.168.1.7"
-  port: 3360
+  port: 9000
+  access_key_id: "minioadmin"
+  secret_access_key: "minioadmin"
+  use_ssl: false
