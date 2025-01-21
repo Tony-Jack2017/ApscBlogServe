@@ -10,6 +10,22 @@ import (
 var router = gin.Default()
 
 func init() {
+	gin.DisableConsoleColor();
+
+  logfile := "/path/to/your/file.txt"
+	_, err := os.Stat(filePath)
+	if os.IsNotExist(err) {
+		fmt.Println("文件不存在")
+	} else if err != nil {
+		fmt.Println("检查文件时发生错误:", err)
+	} else {
+		fmt.Println("文件存在")
+	}
+  if err != nil {
+	  fmt.Println("Could not create log file")
+	}
+  gin.DefaultWriter = io.MultiWriter(logfile)
+
 	router.Use(middleware.CorsMiddleware()).Use(middleware.ErrorMiddleware())
 	v1 := router.Group("/v1")
 	RegisterArticleRoutes(v1.Group("/blog"))

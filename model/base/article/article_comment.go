@@ -11,6 +11,7 @@ import (
 
 type Comment struct {
 	CommentID      int64  `json:"comment_id" bson:"comment_id"`
+	CommentReplyID int64 `json:"comment_reply_id" bson:"comment_reply_id"`
 	SenderName     string `json:"sender_name" bson:"sender_name"`
 	SenderEmail    string `json:"sender_email" bson:"sender_email"`
 	Content        string `json:"content" bson:"content"`

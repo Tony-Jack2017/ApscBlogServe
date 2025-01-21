@@ -17,6 +17,7 @@ func CreateArticleCommentSVC(req *article2.CreateArticleCommentReq) (*common.Res
 	}
 	comment := article.Comment{
 		CommentID:   commentID,
+		CommentReplyID: req.CommentReplyID,
 		SenderName:  req.SenderName,
 		SenderEmail: req.SenderEmail,
 		ArticleID:   req.ArticleID,
